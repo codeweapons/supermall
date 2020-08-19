@@ -68,7 +68,7 @@
             }
         },
         activated() {
-            this.$refs.scroll.scroll.scrollTo(0, this.saveY, 0)
+            this.$refs.scroll.scroll.scrollTo(0, this.saveY)
             this.$refs.scroll.scroll.refresh()
         },
         deactivated() {
