@@ -30,6 +30,8 @@
 
     import { getDetail, Goods, Shop, GoodsParam, getRecommend } from 'network/detail.js'
     import { debounce } from 'common/utils.js'
+    import { Dialog } from 'vant';
+
 
     export default {
         name: 'Detail',
@@ -89,9 +91,9 @@
             this.getThemeTopY = debounce(() => {
                 this.themeTopYs = []
                 this.themeTopYs.push(0)
-                this.themeTopYs.push(-this.$refs.params.$el.offsetTop)
-                this.themeTopYs.push(-this.$refs.comment.$el.offsetTop)
-                this.themeTopYs.push(-this.$refs.recommend.$el.offsetTop)
+                this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+                this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+                this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
                 this.themeTopYs.push(Number.MAX_VALUE)
 
 
@@ -104,20 +106,19 @@
                 // console.log(this.themeTopYs)
             },
             titleClick(index) {
-                this.$refs.scroll.scroll.scrollTo(0, this.themeTopYs[index], 200)
+                this.$refs.scroll.scroll.scrollTo(0, -this.themeTopYs[index], 200)
             },
             contentScroll(position) {
                 const positionY = -position.y;
                 // console.log(positionY);
                 let length = this.themeTopYs.length
                 for (let i = 0; i < length - 1; i++) {
-                    // console.log(i);
-                    // console.log(this.themeTopYs);
-                    if (positionY >= -this.themeTopYs[i] && positionY < -this.themeTopYs[i + 1]) {
+
+                    if (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]) {
                         this.currentIndex = i;
                         this.$refs.nav.currentIndex = this.currentIndex
 
-                        console.log(i);
+
                     }
                     // this.currentIndex = i;
 
@@ -136,7 +137,10 @@
                 product.price = this.goods.realPrice;
                 product.iid = this.iid;
 
-                this.$store.commit('addCart', product)
+                this.$store.dispatch('addCart', product).then(res=>{
+                Dialog({ message: '加入购物车成功' })
+                })
+                
                 // console.log(this.$store.state.cartList);
             }
 

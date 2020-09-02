@@ -6,8 +6,6 @@
         <tab-control :titles='["流行","新款","精选"]' @btnclick='tabClick' ref='tabControl1' class="tab-contorl"
             v-show='isTabFixed'></tab-control>
 
-
-
         <scroll class="content" ref='scroll' :probe-type='3' @scroll='contentScroll' :pull-up-load='true'
             @pullingUp='loadMore'>
             <home-swiper :banners='banners' @swiperImageLoad='swiperImageLoad'></home-swiper>
@@ -125,7 +123,7 @@
                     this.goods[type].list.push(...res.data.list)
                     this.goods[type].page += 1
 
-                    this.$refs.scroll.scroll.finishPullUp()
+                    this.$refs.scroll.finishPullUp()
                     // console.log(res);
                 })
             },
